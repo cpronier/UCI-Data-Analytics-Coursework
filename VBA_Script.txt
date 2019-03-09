@@ -1,0 +1,66 @@
+Sub Stock_Market_Homework_Test_File()
+
+'create and define ticker symbol variable for summary table
+Dim ticker_symbol As String
+
+'create and define volume variable for summary table
+Dim stock_volume As Double
+stock_volume = 0
+
+'keep track of the location of the for each ticker symbol in the summary table
+Dim summary_table_row As Double
+
+
+'assign the row location of the summary table (take into account row 1 for header data)
+summary_table_row = 1
+    
+'loop through ticker data using a next cell comparison (this works to group same ticker symbols because the data is in alphabetical order)
+For i = 2 To LastRow
+
+    'what to do if the next cell value does not equal one another...
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+    
+        'tell the computer to compare values in column A (represented by 1) through rows assigned in the for i statement
+        ticker_symbol = Cells(i, 1).Value
+        
+        
+        'insert variable data in assigned column in rows not to override previous data
+        Range("I" & summary_table_row + 1).Value = ticker_symbol
+        
+        
+        'designate the location to display the output of the ticker_symbol and stock_volume data
+        summary_table_row = summary_table_row + 1
+        
+         
+        
+     End If
+     
+     If Cells(i + 1, 1).Value = Cells(i, 1).Value Then
+        
+        'tell the computer to look in 7th column for data and call it stock_volume
+        stock_volume = stock_volume + Cells(i, 7).Value
+    
+        
+    Else
+    'insert variable data in assigned column in rows not to override previous data
+        stock_volume = stock_volume + Cells(i, 7).Value
+        
+        Range("J" & summary_table_row).Value = stock_volume
+        
+    'reset the stock_volume variable to zero after every iteration so it only counts matching ticker numbers and then begin counting again once a change is detected
+        stock_volume = 0
+        
+        
+    'closing out the loop statement
+    End If
+    
+Next i
+
+
+'add header data for summary table values
+Cells(1, 9).Value = "Ticker"
+Cells(1, 10).Value = "Total Stock Volume"
+
+
+End Sub
+
