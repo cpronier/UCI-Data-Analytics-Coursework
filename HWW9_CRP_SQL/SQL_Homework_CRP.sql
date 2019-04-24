@@ -67,6 +67,23 @@ WHERE first_name = "HARPO";
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
 SHOW CREATE TABLE address;
+-- Use the following if needed to recreate, commented out so it would not run.
+-- CREATE TABLE `address` (
+  -- `address_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  --  `address` varchar(50) NOT NULL,
+  -- `address2` varchar(50) DEFAULT NULL,
+  -- `district` varchar(20) NOT NULL,
+  -- `city_id` smallint(5) unsigned NOT NULL,
+  -- `postal_code` varchar(10) DEFAULT NULL,
+  -- `phone` varchar(20) NOT NULL,
+  -- `location` geometry NOT NULL,
+  -- `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  -- PRIMARY KEY (`address_id`),
+  -- KEY `idx_fk_city_id` (`city_id`),
+  -- SPATIAL KEY `idx_location` (`location`),
+  -- CONSTRAINT `fk_address_city` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`) ON UPDATE CASCADE
+-- ) ENGINE=InnoDB AUTO_INCREMENT=606 DEFAULT CHARSET=utf8
+
 
 -- 6a. Use JOIN to display the first and last names, as well as the address, of each staff member. Use the tables staff and address:
 SELECT staff.first_name, staff.last_name, staff.address_id, address.address
@@ -127,7 +144,7 @@ SELECT first_name, last_name
 FROM actor
 WHERE actor_id IN
 (
-Select actor_id
+SELECT actor_id
 FROM film_actor
 WHERE film_id IN 
 (
@@ -138,31 +155,101 @@ WHERE title = 'Alone Trip'
 
 -- 7c. You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers. 
 -- Use joins to retrieve this information.
-
+SELECT CONCAT(customer.first_name,' ',customer.last_name) AS 'Canada_Customer_Name', customer.email AS 'Canada_Customer_E-mail'
+FROM customer 
+JOIN address 
+ON customer.address_id = address.address_id
+JOIN city 
+ON address.city_id = city.city_id
+JOIN country 
+ON country.country_id = city.country_id
+WHERE country.country = 'Canada';
 
 -- 7d. Sales have been lagging among young families, and you wish to target all family movies for a promotion. 
 -- Identify all movies categorized as family films.
-
+SELECT film.title AS 'Family_Movies'
+FROM film
+JOIN film_category 
+ON film_category.film_id = film.film_id
+JOIN category  
+ON category.category_id = film_category.category_id
+WHERE category.name = 'Family';
 
 -- 7e. Display the most frequently rented movies in descending order.
-
+SELECT film.title AS 'Frequently_Rented_Movies', COUNT(rental.rental_date) AS 'Number_of_Times_Rented'
+FROM film
+JOIN inventory 
+ON inventory.film_id = film.film_id
+JOIN rental 
+ON rental.inventory_id = inventory.inventory_id
+GROUP BY film.title
+ORDER BY COUNT(rental.rental_date) DESC;
 
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
-
+SELECT store AS 'Store', total_sales AS 'Total Sales' 
+FROM sales_by_store;
+SELECT CONCAT(city.city,', ',country.country) AS `Store`, store.store_id AS 'Store ID', SUM(payment.amount) AS `Total Sales` 
+FROM payment 
+JOIN rental 
+ON rental.rental_id = payment.rental_id
+JOIN inventory 
+ON inventory.inventory_id = rental.inventory_id
+JOIN store 
+ON store.store_id = inventory.store_id
+JOIN address  
+ON address.address_id = store.address_id
+JOIN city 
+ON city.city_id = address.city_id
+JOIN country  
+ON country.country_id = city.country_id
+GROUP BY store.store_id;
 
 -- 7g. Write a query to display for each store its store ID, city, and country.
-
+SELECT store.store_id AS 'Store_ID', city.city AS 'City', country.country AS 'Country'
+FROM store
+JOIN address
+ON address.address_id = store.address_id
+JOIN city 
+ON city.city_id = address.city_id
+JOIN country 
+ON country.country_id = city.country_id
+ORDER BY store.store_id;
 
 -- 7h. List the top five genres in gross revenue in descending order. 
 -- (Hint: you may need to use the following tables: category, film_category, inventory, payment, and rental.)
-
+SELECT category.name AS 'Film', SUM(payment.amount) AS 'Gross_Revenue'
+FROM category
+JOIN film_category 
+ON film_category.category_id = category.category_id
+JOIN inventory
+ON inventory.film_id = film_category.film_id
+JOIN rental
+ON rental.inventory_id = inventory.inventory_id
+JOIN payment
+ON payment.rental_id = rental.rental_id
+GROUP BY category.name
+ORDER BY SUM(payment.amount) DESC
+LIMIT 5;
 
 -- 8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. 
 -- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
-
+CREATE VIEW top_5_grossing_genres AS
+SELECT category.name AS 'Film', SUM(payment.amount) AS 'Gross_Revenue'
+FROM category
+JOIN film_category 
+ON film_category.category_id = category.category_id
+JOIN inventory
+ON inventory.film_id = film_category.film_id
+JOIN rental
+ON rental.inventory_id = inventory.inventory_id
+JOIN payment
+ON payment.rental_id = rental.rental_id
+GROUP BY category.name
+ORDER BY SUM(payment.amount) DESC
+LIMIT 5;
 
 -- 8b. How would you display the view that you created in 8a?
-
+SELECT * FROM top_5_grossing_genres;
 
 -- 8c. You find that you no longer need the view top_five_genres. Write a query to delete it.
-
+DROP VIEW top_5_grossing_genres;
