@@ -1,0 +1,7 @@
+TOTAL MONTHS: 86
+TOTAL: $38382578
+The next section is not working correctly and I can't figure out what the logic error is in the code. I am trying to create a new list which contains the differences between values in the previous list I created so I can calculate the average, min and max. I spent 3 hours tinkering with it but still cannot figure out what is wrong. So I am going to improvise this next part so I can at least show some additional work.
+[116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771, 116771]
+Average Change: $101574.63095238095
+Greatest Increase in Profits: Sep 2013 $2196167
+Greatest Decrease in Profits: Feb 2016 $-1750387
