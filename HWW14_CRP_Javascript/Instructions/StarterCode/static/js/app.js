@@ -1,12 +1,11 @@
 // from data.js
 var tableData = data;
 
-// YOUR CODE HERE!
+// // YOUR CODE HERE!
 var tbody = d3.select("tbody");
 
 // Console.log the weather data from data.js
 console.log(data);
-
 
 data.forEach(function(ufoSightings) {
   console.log(ufoSightings);
@@ -19,3 +18,4 @@ data.forEach(function(ufoSightings) {
     cell.text(value);
   });
 });
+
