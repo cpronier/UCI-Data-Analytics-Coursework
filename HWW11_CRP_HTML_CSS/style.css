@@ -1,0 +1,74 @@
+h1 {
+    color: #666DE5;
+    margin-top: -10px;
+    margin-bottom: -5px;
+    font-weight: bold;
+}
+
+h2 {
+    color: #666DE5;
+    font-weight: bold;
+    padding: 15px;
+}
+
+h3 {
+    color: #666DE5;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+p img {
+    float: left;
+    padding-right: 30px;
+    padding-bottom: 12px;
+}
+
+p {
+    margin: 20px;
+    padding: 25px;
+    background-color: #BAA3EF;
+}
+
+div .btn-group-vertical {
+    margin-left: 60px;
+}
+
+table {
+    color: ##180934;
+    background-color: #666DE5;
+}
+
+
+.plot-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20 px;
+    width: 66%
+}
+
+.plot-info {
+    text-align: center;
+}
+
+p.plot-info {
+    font-size: 15px;
+}
+
+body {
+    background-color: #495867;
+    padding: 10px;
+    margin: 10px;
+}
+
+.button {
+    background-color: #ffffff;
+}
+
+.no-margins {
+    margin-left: 0 !important
+}
